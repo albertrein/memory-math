@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21-Abr-2020 às 21:12
+-- Tempo de geração: 28-Abr-2020 às 00:02
 -- Versão do servidor: 10.4.11-MariaDB
 -- versão do PHP: 7.4.4
 
@@ -75,7 +75,7 @@ CREATE TABLE `jogador` (
 --
 
 CREATE TABLE `pergunta` (
-  `ID` int(11) NOT NULL,
+  `ID` int(10) UNSIGNED NOT NULL,
   `PERGUNTA` varchar(255) NOT NULL,
   `RESPOSTA` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -97,7 +97,7 @@ ALTER TABLE `administrador`
 ALTER TABLE `carta_calculo`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `EXPRESSAO` (`EXPRESSAO`),
-  ADD KEY `FK_CARTA_RESPOSTA` (`RESPOSTA`);
+  ADD KEY `FKCARTA_RESPOSTA` (`RESPOSTA`);
 
 --
 -- Índices para tabela `carta_resposta`
@@ -121,6 +121,40 @@ ALTER TABLE `pergunta`
   ADD UNIQUE KEY `PERGUNTA` (`PERGUNTA`);
 
 --
+-- AUTO_INCREMENT de tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `administrador`
+--
+ALTER TABLE `administrador`
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `carta_calculo`
+--
+ALTER TABLE `carta_calculo`
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `carta_resposta`
+--
+ALTER TABLE `carta_resposta`
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `jogador`
+--
+ALTER TABLE `jogador`
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `pergunta`
+--
+ALTER TABLE `pergunta`
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- Restrições para despejos de tabelas
 --
 
@@ -128,7 +162,7 @@ ALTER TABLE `pergunta`
 -- Limitadores para a tabela `carta_calculo`
 --
 ALTER TABLE `carta_calculo`
-  ADD CONSTRAINT `FK_CARTA_RESPOSTA` FOREIGN KEY (`RESPOSTA`) REFERENCES `carta_resposta` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FKCARTA_RESPOSTA` FOREIGN KEY (`RESPOSTA`) REFERENCES `carta_resposta` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
