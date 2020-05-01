@@ -3,18 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Math - Game</title>
+    <title>Memory Math - Home</title>
     <link href="https://nostalgic-css.github.io/NES.css/style.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/nes.css/css/nes-core.min.css" rel="stylesheet" />
-    <style >
-        body{
-            font-family: 'Press Start 2P', cursive;
-        }
-        header{
-            position: relative;
-        }
-    </style>
+    <link href="./assets/style/style.css" rel="stylesheet" />
 </head>
 <body>
     <div class="nescss">
@@ -44,12 +37,14 @@
     </header>
     <section class="showcase"><section class="nes-container with-title"><h3 class="title">Opções</h3>
         <div id="buttons" class="item">
-            <button type="button" class="nes-btn is-primary">Ver Ranking</button>
+            <a id="ranking" class="nes-btn is-primary" tabindex="0">Ranking</a>
+            <a id="login" class="nes-btn is-primary" tabindex="2">Cadastrar Conta</a>
+            <a id="logon" class="nes-btn is-primary" tabindex="1">Entrar</a>
             <!--<button type="button" class="nes-btn is-success">Success</button>
             <button type="button" class="nes-btn is-warning">Warning</button>
             <button type="button" class="nes-btn is-error">Error</button>
             <button type="button" class="nes-btn is-disabled">Disabled</button>-->
-            </div>
+        </div>
     </section>
     <section style="margin-top: 30px">
         <label for="default_select">Escolha a dificuldade do jogo</label>
