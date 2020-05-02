@@ -30,7 +30,31 @@
                 </div>
             </div>
         </header>
+
+    <div class="nes-container with-title is-centered">
+        <p class="title" id="timerCounter"></p>
+        <p>Good morning. Thou hast had a good night's sleep, I hope.</p>
     </div>
-    
+
+
+    </div>
+    <script lang="text/javascript">
+        let timer = document.querySelector('#timerCounter');
+        let timerCounter = 60 * 1000;
+
+        let startTimer = () => {
+            setTimeout(() => {
+                timer.textContent = timerCounter/1000;
+                timerCounter -= 1000;
+                if(timerCounter < 0){
+                    //Verifica cartas aqui
+                    return;
+                }
+                startTimer();
+            },1000)
+        }
+        startTimer();
+
+    </script>
 </body>
 </html>
