@@ -4,3 +4,11 @@ body{
 header{
     position: relative;
 }
+div{
+    margin: 15px;
+}
+
+progress{
+    margin-top: 15px !important;
+    margin-left: auto !important;
+}

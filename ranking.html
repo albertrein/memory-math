@@ -13,6 +13,21 @@
             *To do
             * Fetch buscar informações do ranking no php
         */
+        
+        let createElementTable = (ranking) => new Promise((resolve, reject) => {
+            let tr = document.createElement('tr');
+            let tdUsuario = document.createElement('td');
+            tdUsuario.textContent = ranking.usuario;
+            tr.appendChild(tdUsuario);
+
+            let tdPontuacao = document.createElement('td');
+            tdPontuacao.textContent = ranking.pontuacao;
+            tr.appendChild(tdPontuacao);
+            resolve(tr);
+        });
+        
+        let phpRankingReturnOfFetch = '[{"usuario":"Guilherme", "pontuacao": "12 pts"}, {"usuario":"Renan", "pontuacao": "10 pts"}, {"usuario":"Samuel", "pontuacao": "9 pts"}, {"usuario":"Tony Stark", "pontuacao": "8 pts"}, {"usuario":"Naruto", "pontuacao": "7 pts"}, {"usuario":"Thanos", "pontuacao": "4 pts"}]';
+        let jsonRanking = JSON.parse(phpRankingReturnOfFetch);
     </script>
 </head>
 <body>
@@ -31,6 +46,53 @@
             </div>
         </header>
     </div>
-    
+
+    <section class="showcase"><section class="nes-container with-title"><h3 class="title">Opções</h3>
+        <div id="buttons" class="item">
+            <a id="ranking" href="index.html" class="nes-btn is-primary" tabindex="0">Home</a>
+            
+        </div>
+    </section>
+
+    <div id="table" style="display: none;" class="nes-table-responsive">
+        <h3>Top 10 melhores jogadores</h3>
+        <table class="nes-table is-bordered is-centered">
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Pontuação</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+          </tbody>
+        </table>
+      </div>
+      
+      <progress class="nes-progress is-primary" value="0" max="100"></progress>
+      
+      <script>        
+          let counter = 0;
+          let elementProgessBar = document.querySelector('progress'); 
+          setInterval(() => {
+            if(counter < 100){
+                counter += 40;
+                elementProgessBar.value = counter;
+            }else{
+                document.querySelector('#table').style.display = "block";
+                document.querySelector('progress').style.display = "none";
+            }
+          },1000);
+
+        let insertTableLines = async () => {
+            let arrayPromises = [];
+            jsonRanking.forEach((rankingUsuario) => {
+                arrayPromises.push(createElementTable(rankingUsuario).then((elementTable)=>{
+                    document.querySelector('#tableBody').appendChild(elementTable);
+                }));
+            });
+            await Promise.all(arrayPromises);
+        }
+        insertTableLines();
+      </script>
 </body>
 </html>
