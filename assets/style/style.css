@@ -33,7 +33,9 @@ progress{
     padding: 60px 13px 0px 16px;
     word-break: break-all;
     vertical-align: text-top;
+    color: transparent;
 }
 .show{
     background-image: url('../imgs/Memory_math_cor_3.png');
+    color: #000;
 }

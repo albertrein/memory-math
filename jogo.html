@@ -15,11 +15,15 @@
         /*
             *To do
             * Verificar aqui se jogador está logado
+            * Fazer fetch enviando quantidade de cartas de acordo com a dificuldade            
         */
-        let cartas = {
+        let cartas = [{
             "expressao" : "3+4",
             "resposta" : "7"
-        }
+        },{
+            "expressao" : "4-4",
+            "resposta" : "0"
+        }];
 
     </script>
 </head>
@@ -41,9 +45,6 @@
 
     <div class="nes-container with-title is-centered">
         <p class="title" id="timerCounter"></p>
-        
-        <div class="card show" >3 * 8</div>
-        <div class="card "></div>
     </div>
 
 
@@ -51,19 +52,80 @@
     <script lang="text/javascript">
         let timer = document.querySelector('#timerCounter');
         let timerCounter = 60 * 1000;
+        let primeiraJogada = null;
+        let quantidadeCartasAtivas = cartas.length;
 
         let startTimer = () => {
             setTimeout(() => {
                 timer.textContent = timerCounter/1000;
                 timerCounter -= 1000;
                 if(timerCounter < 0){
-                    //Verifica cartas aqui
+                    alert("Você perdeu. Fim de jogo!");
+                    //Soma pontos totais
+                    //Envia para o ranking
                     return;
                 }
                 startTimer();
             },1000)
         }
         startTimer();
+        
+        let verificaFimDaEtapa = () => {
+            quantidadeCartasAtivas--;
+            if(quantidadeCartasAtivas <= 0){
+                alert("Fim da etapa");
+                //Verificador fim de jogo
+                //Soma pontos totais
+                //Envia para o ranking
+            }
+        }
+
+        let verificaCartas = (card1, card2, callback) => new Promise((resolve, reject) => {
+            if(card1.getAttribute("key") == card2.getAttribute("key")){
+                //Soma Pontos
+                verificaFimDaEtapa();
+                resolve();
+            }else{
+                card1.className = "card";
+                card2.className = "card";
+                resolve();
+            }
+        });
+
+        let makeMove = (card) => {
+            card.className += " show"
+            
+            if(!primeiraJogada){
+                primeiraJogada = card;
+                return;
+            }
+            
+            setTimeout(async () => {
+                await verificaCartas(primeiraJogada, card);                    
+                
+                primeiraJogada = null;
+                card = null;
+            },500)
+            
+        }
+
+        let makeElement = (text, key) => {
+            let newCard = document.createElement('div');
+            newCard.classList = "card";
+            newCard.textContent = text;
+            newCard.setAttribute('key', key);
+            newCard.addEventListener('click',(el) => {
+                makeMove(el.target)
+            });
+            containerElement.appendChild(newCard);
+        }        
+
+        let containerElement = document.querySelector('.nes-container');
+        cartas.forEach((obj, key) => {
+            makeElement(obj.expressao, key);
+            makeElement(obj.resposta, key);
+        });
+
 
     </script>
 </body>
