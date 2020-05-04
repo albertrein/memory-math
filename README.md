@@ -2,7 +2,8 @@
 This is a web game, developed to professors who wants to implements different games to students.
 
 
-#Front-end
+# Front-end
+
     ranking.html
         waiting: Array JSON [{"usario":"xxx", "pontuacao": "12 pts"}, ...]
         null: {}
@@ -12,4 +13,4 @@ This is a web game, developed to professors who wants to implements different ga
         waiting: Array JSON  [{"key":chave, "expressao" : "2+2"}, {"key":chave, "resposta" : "4"}] #Waiting ramdonly
         null: {} 
 
-#Back-end
+# Back-end
