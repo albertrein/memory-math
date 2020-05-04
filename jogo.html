@@ -17,13 +17,15 @@
             * Verificar aqui se jogador está logado
             * Fazer fetch enviando quantidade de cartas de acordo com a dificuldade            
         */
-        let cartas = [{
-            "expressao" : "3+4",
-            "resposta" : "7"
-        },{
-            "expressao" : "4-4",
-            "resposta" : "0"
-        }];
+
+        let cartas = [
+            {"key":2, "value" : "25"},
+            {"key":0, "value" : "21"},
+            {"key":1, "value" : "2+2"},
+            {"key":0, "value" : "3 * 7"},
+            {"key":2, "value" : "5 * 5"},
+            {"key":1, "value" : "4"}
+        ]
 
     </script>
 </head>
@@ -53,7 +55,7 @@
         let timer = document.querySelector('#timerCounter');
         let timerCounter = 60 * 1000;
         let primeiraJogada = null;
-        let quantidadeCartasAtivas = cartas.length;
+        let quantidadeCartasAtivas = cartas.length / 2;
 
         let startTimer = () => {
             setTimeout(() => {
@@ -118,12 +120,11 @@
                 makeMove(el.target)
             });
             containerElement.appendChild(newCard);
-        }        
+        }
 
         let containerElement = document.querySelector('.nes-container');
-        cartas.forEach((obj, key) => {
-            makeElement(obj.expressao, key);
-            makeElement(obj.resposta, key);
+        cartas.forEach((obj) => {
+            makeElement(obj.value, obj.key);
         });
 
 
