@@ -10,7 +10,7 @@ This is a web game, developed to professors who wants to implements different ga
 
     jogo.html
         send: GET {"quantidadeCartas" : 5}
-        waiting: Array JSON  [{"key":chave, "expressao" : "2+2"}, {"key":chave, "resposta" : "4"}] #Waiting ramdonly
+        waiting: Array JSON  [{"key":chave, "value" : "2+2"}, {"key":chave, "value" : "4"}] #Waiting ramdonly
         empty: {} 
 
 # Back-end
