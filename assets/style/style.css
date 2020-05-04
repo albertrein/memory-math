@@ -30,10 +30,12 @@ progress{
     background-repeat: no-repeat;
     background-size: cover;
     display: inline-flex;
-    padding: 60px 13px 0px 16px;
+    /*padding: 60px 13px 0px 16px;*/
     word-break: break-all;
     vertical-align: text-top;
     color: transparent;
+    align-items: center;
+    padding-left: 46px;
 }
 .show{
     background-image: url('../imgs/Memory_math_cor_3.png');
