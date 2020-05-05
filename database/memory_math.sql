@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28-Abr-2020 às 00:02
+-- Tempo de geração: 04-Maio-2020 às 02:53
 -- Versão do servidor: 10.4.11-MariaDB
 -- versão do PHP: 7.4.4
 
@@ -65,7 +65,8 @@ CREATE TABLE `carta_resposta` (
 CREATE TABLE `jogador` (
   `ID` int(10) UNSIGNED NOT NULL,
   `NOME` varchar(255) NOT NULL,
-  `SENHA` varchar(255) NOT NULL
+  `SENHA` varchar(255) NOT NULL,
+  `PONTOS` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
