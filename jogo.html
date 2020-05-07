@@ -12,6 +12,7 @@
         
     </style>
     <script>
+        let regras = JSON.parse(localStorage.getItem("regras"));
         /*
             *To do
             * Verificar aqui se jogador está logado
@@ -53,7 +54,7 @@
     </div>
     <script lang="text/javascript">
         let timer = document.querySelector('#timerCounter');
-        let timerCounter = 60 * 1000;
+        let timerCounter = regras.timer * 1000;
         let primeiraJogada = null;
         let quantidadeCartasAtivas = cartas.length / 2;
 

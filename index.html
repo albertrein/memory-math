@@ -48,16 +48,70 @@
     <section style="margin-top: 30px">
         <label for="default_select">Escolha a dificuldade do jogo</label>
         <div class="nes-select">
-        <select required id="default_select">
+        <select required id="default_select_options">
             <option value="" disabled selected hidden>Escolha...</option>
-            <option value="0">Fácil</option>
-            <option value="1">Médio</option>
-            <option value="1">Difícil</option>
+            <option value="0">Muito Fácil</option>
+            <option value="1">Fácil</option>
+            <option value="2">Médio</option>
+            <option value="3">Difícil</option>
+            <option value="4">Einstein</option>
         </select>
     </section>
+    <div class="nes-container with-title is-centered" style="border: none">
+        <button type="button" id="jogar" class="nes-btn is-disabled" disabled onclick="startGame()">Jogar</button>
+    </div>
 </div>
 </div><!-- end f content -->
+<script>
+    let optionEscolhida = null;
+    document.querySelector('#default_select_options').addEventListener('change', evt => {
+        document.querySelector('#jogar').className = "nes-btn is-success";
+        document.querySelector('#jogar').disabled = false;
+        optionEscolhida = evt.target.value;
+    });
 
+    startGame = () => {
+        let qtdCartas, tempo, pontuacaoPorEtapa;
+        switch(optionEscolhida){
+            case "0":
+                qtdCartas = 4,
+                tempo = 45,
+                pontuacaoPorEtapa = 20;
+                break;
+            case "1":
+                qtdCartas = 8,
+                tempo = 50,
+                pontuacaoPorEtapa = 40;
+                break;
+            case "2":
+                qtdCartas = 14,
+                tempo = 55,
+                pontuacaoPorEtapa = 60;
+                break;
+            case "3":
+                qtdCartas = 18,
+                tempo = 60,
+                pontuacaoPorEtapa = 80;
+                break;
+            case "4":
+                qtdCartas = 24,
+                tempo = 50,
+                pontuacaoPorEtapa = 100;
+                break;
+        }
+        localStorage.setItem("regras",JSON.stringify({
+            "qtdCartas" : qtdCartas,
+            "timer" : tempo,
+            "pontuacaoPorEtapa" : pontuacaoPorEtapa
+        }));
+        window.location.href = "jogo.html";        
+    }
+    /*
+
+    * Setar as regras do jogo aqui
+    * salvar em um objeto no storage
+    */
+</script>
     
 </body>
 </html>
