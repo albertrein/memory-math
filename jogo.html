@@ -74,23 +74,24 @@
         let timerCounter = regras.timer * 1000;
         let primeiraJogada = null;
         let quantidadeCartasAtivas = cartas.length / 2;
+        let timerIntervalValue = null;
 
         let startTimer = () => {
-            setTimeout(() => {
+            timerIntervalValue = setInterval(() => {
                 timer.textContent = timerCounter/1000;
-                timerCounter -= 1000;
+                timerCounter -= 5000;
                 if(timerCounter < 0){
+                    clearInterval(timerIntervalValue);
                     alert("Você perdeu. Fim de jogo!");
                     //Soma pontos totais
                     //Envia para o ranking
                     window.location.href = "index.html";
                     return;
                 }
-                startTimer();
             },1000)
         }
         startTimer();
-        
+
         let registrarPontuacao = (pontos) => {
             let pontuacaoAtual = parseInt(localStorage.getItem("pontuacaoAtual")) + pontos;
             localStorage.setItem("pontuacaoAtual", pontuacaoAtual);
