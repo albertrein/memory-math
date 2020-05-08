@@ -59,10 +59,10 @@
               <form method="dialog">
                 <p class="title">Pergunta:</p>
                 <p id="pergunta">texto aqui!</p>
-                <input type="text" required id="dark_field" class="nes-input is-dark" placeholder="Qual a resposta?">
+                <input type="text" id="inputPergunta" required id="dark_field" class="nes-input is-dark" placeholder="Qual a resposta?">
                 <menu class="dialog-menu">
                   <button class="nes-btn" onclick="document.getElementById('dialog-rounded').close();">Pular</button>
-                  <button type="submit" class="nes-btn is-primary">Responder</button>
+                  <button type="submit" class="nes-btn is-primary" onclick="respondePerguntaAleatoria()">Responder</button>
                 </menu>
               </form>
             </dialog>
@@ -72,14 +72,19 @@
     <script lang="text/javascript">
         let timer = document.querySelector('#timerCounter');
         let timerCounter = regras.timer * 1000;
+        let tempoPerguntaAleatoria = Math.floor(Math.random() * (regras.timer - 10) + 10);
         let primeiraJogada = null;
         let quantidadeCartasAtivas = cartas.length / 2;
         let timerIntervalValue = null;
-
         let startTimer = () => {
             timerIntervalValue = setInterval(() => {
+                if((tempoPerguntaAleatoria * 1000) == timerCounter){
+                    clearInterval(timerIntervalValue);
+                    document.getElementById('dialog-rounded').showModal();
+                }
                 timer.textContent = timerCounter/1000;
-                timerCounter -= 5000;
+                timerCounter -= 1000;
+
                 if(timerCounter < 0){
                     clearInterval(timerIntervalValue);
                     alert("Você perdeu. Fim de jogo!");
@@ -153,6 +158,30 @@
             makeElement(obj.value, obj.key);
         });
 
+        let respondePerguntaAleatoria = () => {
+            let resposta = document.querySelector('#inputPergunta').value;
+            if(resposta === "guilherme"){
+                let arrayCartasNaoSelecionadas = Array.from(document.querySelectorAll(".card")).filter(item => !item.classList[1]);
+                if(arrayCartasNaoSelecionadas.length <= 2){
+                    startTimer();
+                    return;
+                }
+                    
+                
+                arrayCartasNaoSelecionadas[0].className += " show";
+                let atributoKeyPrimeiraCarta = arrayCartasNaoSelecionadas[0].getAttribute("key");
+                for(i = 1; i < arrayCartasNaoSelecionadas.length; i++){
+                    if(atributoKeyPrimeiraCarta == arrayCartasNaoSelecionadas[i].getAttribute("key")){
+                        arrayCartasNaoSelecionadas[i].className += " show";
+                        registrarPontuacao(10);
+                        quantidadeCartasAtivas--;
+                        verificaFimDaEtapa();
+                    }
+                }
+            }
+            startTimer();
+
+        }
 
     </script>
 </body>
