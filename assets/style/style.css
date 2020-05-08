@@ -45,3 +45,6 @@ progress{
     text-align: right;
     margin: 2%;
 }
+dialog #pergunta{
+    word-break: break-all;
+}
