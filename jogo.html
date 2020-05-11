@@ -70,9 +70,6 @@
             <p class="title" id="timerCounter"></p>
         </div>
         <section>
-            <button type="button" class="nes-btn is-primary" onclick="document.getElementById('dialog-rounded').showModal();">
-              Open rounded dialog
-            </button>
             <dialog class="nes-dialog is-rounded" id="dialog-rounded">
               <form method="dialog">
                 <p class="title">Pergunta:</p>
@@ -82,18 +79,25 @@
                   <button class="nes-btn" onclick="document.getElementById('dialog-rounded').close();">Pular</button>
                   <button type="submit" class="nes-btn is-primary" onclick="respondePerguntaAleatoria()">Responder</button>
                 </menu>
-              </form>
-            </dialog>
-          </section>
-
-    </div>
-    <script lang="text/javascript">
-    let startGame = () => {
+            </form>
+        </dialog>
+    </section>
+    
+</div>
+<script lang="text/javascript">
+        let quantidadeCartasAtivas = 0;
+        let startGame = () => {
+            startTimer();
+            registrarPontuacao(0);
+            cartas.forEach((obj) => {
+                makeElement(obj.value, obj.key);
+            });
+            quantidadeCartasAtivas = cartas.length / 2;
+        }    
         let timer = document.querySelector('#timerCounter');
         let timerCounter = regras.timer * 1000;
         let tempoPerguntaAleatoria = Math.floor(Math.random() * (regras.timer - 10) + 10);
         let primeiraJogada = null;
-        let quantidadeCartasAtivas = cartas.length / 2;
         let timerIntervalValue = null;
         let startTimer = () => {
             timerIntervalValue = setInterval(() => {
@@ -114,7 +118,6 @@
                 }
             },1000)
         }
-        startTimer();
 
         let registrarPontuacao = (pontos) => {
             let pontuacaoAtual = parseInt(localStorage.getItem("pontuacaoAtual")) + pontos;
@@ -122,7 +125,6 @@
 
             document.querySelector('#pontuacaoAtual').textContent = pontuacaoAtual; 
         }
-        registrarPontuacao(0);
 
         let verificaFimDaEtapa = () => {            
             if(quantidadeCartasAtivas <= 0){
@@ -173,9 +175,6 @@
         }
 
         let containerElement = document.querySelector('.nes-container');
-        cartas.forEach((obj) => {
-            makeElement(obj.value, obj.key);
-        });
 
         let respondePerguntaAleatoria = () => {
             let resposta = document.querySelector('#inputPergunta').value;
@@ -198,7 +197,6 @@
             }
             startTimer();
         }
-    }
     </script>
 </body>
 </html>
