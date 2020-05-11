@@ -6,9 +6,9 @@
      */
 
     $err = FALSE;
-    (isset($_GET['perguntas']) and !empty($_GET['perguntas'])) ? $cartas = $_GET['perguntas'] : $err = TRUE;
+    (isset($_GET['perguntas']) and !empty($_GET['perguntas'])) ? $perguntas = $_GET['perguntas'] : $err = TRUE;
 
-    if (($cartas != "all") || ($err)) {
+    if (($perguntas != "all") || ($err)) {
         mysqli_close($db_conn);	
 	    exit;
     }
