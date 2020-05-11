@@ -18,6 +18,25 @@
             * Verificar aqui se jogador está logado
             * Fazer fetch enviando quantidade de cartas de acordo com a dificuldade            
         */
+        let dadosFormulariosCapturarCartas = new FormData();
+        dadosFormulariosCapturarCartas.append('qtdCartas',regras.qtdCartas);
+        let params = {
+            method: 'POST',
+            body: dadosFormulariosCapturarCartas
+        };
+        let cartas = null;
+        fetch("./backend/selecionarcartas.php",params).then((response) => {
+            response.json().then((jsonReturn) => {
+                console.log(jsonReturn);
+                if(!jsonReturn){
+                    alert('Sem Cartas a exibir')
+                    return;
+                }
+                cartas = jsonReturn;
+                startGame();
+            });
+        });
+
         let respotaParaPerguntaAleatoria = null;
         fetch("./backend/listarperguntas.php").then((response) => {
             response.json().then((jsonReturn) => {
@@ -26,17 +45,7 @@
                 respotaParaPerguntaAleatoria = jsonReturn.RESPOSTA;
             });
         });
-        
-
-        let cartas = [
-            {"key":2, "value" : "25"},
-            {"key":0, "value" : "21"},
-            {"key":1, "value" : "2+2"},
-            {"key":0, "value" : "3 * 7"},
-            {"key":2, "value" : "5 * 5"},
-            {"key":1, "value" : "4"}
-        ]
-
+     
     </script>
 </head>
 <body>
@@ -79,6 +88,7 @@
 
     </div>
     <script lang="text/javascript">
+    let startGame = () => {
         let timer = document.querySelector('#timerCounter');
         let timerCounter = regras.timer * 1000;
         let tempoPerguntaAleatoria = Math.floor(Math.random() * (regras.timer - 10) + 10);
@@ -188,7 +198,7 @@
             }
             startTimer();
         }
-
+    }
     </script>
 </body>
 </html>
