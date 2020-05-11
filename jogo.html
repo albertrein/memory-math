@@ -18,6 +18,15 @@
             * Verificar aqui se jogador está logado
             * Fazer fetch enviando quantidade de cartas de acordo com a dificuldade            
         */
+        let respotaParaPerguntaAleatoria = null;
+        fetch("./backend/listarperguntas.php").then((response) => {
+            response.json().then((jsonReturn) => {
+                console.log(jsonReturn);
+                document.getElementById('pergunta').textContent = jsonReturn.PERGUNTA;
+                respotaParaPerguntaAleatoria = jsonReturn.RESPOSTA;
+            });
+        });
+        
 
         let cartas = [
             {"key":2, "value" : "25"},
@@ -160,14 +169,12 @@
 
         let respondePerguntaAleatoria = () => {
             let resposta = document.querySelector('#inputPergunta').value;
-            if(resposta === "guilherme"){
+            if(resposta === respotaParaPerguntaAleatoria){
                 let arrayCartasNaoSelecionadas = Array.from(document.querySelectorAll(".card")).filter(item => !item.classList[1]);
                 if(arrayCartasNaoSelecionadas.length <= 2){
                     startTimer();
                     return;
-                }
-                    
-                
+                }                
                 arrayCartasNaoSelecionadas[0].className += " show";
                 let atributoKeyPrimeiraCarta = arrayCartasNaoSelecionadas[0].getAttribute("key");
                 for(i = 1; i < arrayCartasNaoSelecionadas.length; i++){
@@ -180,7 +187,6 @@
                 }
             }
             startTimer();
-
         }
 
     </script>
