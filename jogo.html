@@ -12,6 +12,7 @@
         
     </style>
     <script>
+        let regras = JSON.parse(localStorage.getItem("regras"));
         /*
             *To do
             * Verificar aqui se jogador está logado
@@ -44,48 +45,78 @@
                 </div>
             </div>
         </header>
-
-    <div class="nes-container with-title is-centered">
-        <p class="title" id="timerCounter"></p>
-    </div>
-
+        <p class="pontuacao">
+            <span id="pontuacaoAtual" class="nes-text is-primary">0</span>
+        </p>
+        <div class="nes-container with-title is-centered">
+            <p class="title" id="timerCounter"></p>
+        </div>
+        <section>
+            <button type="button" class="nes-btn is-primary" onclick="document.getElementById('dialog-rounded').showModal();">
+              Open rounded dialog
+            </button>
+            <dialog class="nes-dialog is-rounded" id="dialog-rounded">
+              <form method="dialog">
+                <p class="title">Pergunta:</p>
+                <p id="pergunta">texto aqui!</p>
+                <input type="text" id="inputPergunta" required id="dark_field" class="nes-input is-dark" placeholder="Qual a resposta?">
+                <menu class="dialog-menu">
+                  <button class="nes-btn" onclick="document.getElementById('dialog-rounded').close();">Pular</button>
+                  <button type="submit" class="nes-btn is-primary" onclick="respondePerguntaAleatoria()">Responder</button>
+                </menu>
+              </form>
+            </dialog>
+          </section>
 
     </div>
     <script lang="text/javascript">
         let timer = document.querySelector('#timerCounter');
-        let timerCounter = 60 * 1000;
+        let timerCounter = regras.timer * 1000;
+        let tempoPerguntaAleatoria = Math.floor(Math.random() * (regras.timer - 10) + 10);
         let primeiraJogada = null;
         let quantidadeCartasAtivas = cartas.length / 2;
-
+        let timerIntervalValue = null;
         let startTimer = () => {
-            setTimeout(() => {
+            timerIntervalValue = setInterval(() => {
+                if((tempoPerguntaAleatoria * 1000) == timerCounter){
+                    clearInterval(timerIntervalValue);
+                    document.getElementById('dialog-rounded').showModal();
+                }
                 timer.textContent = timerCounter/1000;
                 timerCounter -= 1000;
+
                 if(timerCounter < 0){
+                    clearInterval(timerIntervalValue);
                     alert("Você perdeu. Fim de jogo!");
                     //Soma pontos totais
                     //Envia para o ranking
+                    window.location.href = "index.html";
                     return;
                 }
-                startTimer();
             },1000)
         }
         startTimer();
-        
-        let verificaFimDaEtapa = () => {
-            quantidadeCartasAtivas--;
+
+        let registrarPontuacao = (pontos) => {
+            let pontuacaoAtual = parseInt(localStorage.getItem("pontuacaoAtual")) + pontos;
+            localStorage.setItem("pontuacaoAtual", pontuacaoAtual);
+
+            document.querySelector('#pontuacaoAtual').textContent = pontuacaoAtual; 
+        }
+        registrarPontuacao(0);
+
+        let verificaFimDaEtapa = () => {            
             if(quantidadeCartasAtivas <= 0){
+                registrarPontuacao(regras.pontuacaoPorEtapa);
                 alert("Fim da etapa");
-                //Verificador fim de jogo
-                //Soma pontos totais
-                //Envia para o ranking
+                window.location.reload();
             }
         }
 
-        let verificaCartas = (card1, card2, callback) => new Promise((resolve, reject) => {
+        let verificaSeCartasSaoIguais = (card1, card2, callback) => new Promise((resolve, reject) => {
             if(card1.getAttribute("key") == card2.getAttribute("key")){
-                //Soma Pontos
-                verificaFimDaEtapa();
+                registrarPontuacao(10);
+                quantidadeCartasAtivas--;
                 resolve();
             }else{
                 card1.className = "card";
@@ -103,11 +134,11 @@
             }
             
             setTimeout(async () => {
-                await verificaCartas(primeiraJogada, card);                    
-                
+                await verificaSeCartasSaoIguais(primeiraJogada, card);                    
+                verificaFimDaEtapa();                
                 primeiraJogada = null;
                 card = null;
-            },500)
+            },350)
             
         }
 
@@ -127,6 +158,30 @@
             makeElement(obj.value, obj.key);
         });
 
+        let respondePerguntaAleatoria = () => {
+            let resposta = document.querySelector('#inputPergunta').value;
+            if(resposta === "guilherme"){
+                let arrayCartasNaoSelecionadas = Array.from(document.querySelectorAll(".card")).filter(item => !item.classList[1]);
+                if(arrayCartasNaoSelecionadas.length <= 2){
+                    startTimer();
+                    return;
+                }
+                    
+                
+                arrayCartasNaoSelecionadas[0].className += " show";
+                let atributoKeyPrimeiraCarta = arrayCartasNaoSelecionadas[0].getAttribute("key");
+                for(i = 1; i < arrayCartasNaoSelecionadas.length; i++){
+                    if(atributoKeyPrimeiraCarta == arrayCartasNaoSelecionadas[i].getAttribute("key")){
+                        arrayCartasNaoSelecionadas[i].className += " show";
+                        registrarPontuacao(10);
+                        quantidadeCartasAtivas--;
+                        verificaFimDaEtapa();
+                    }
+                }
+            }
+            startTimer();
+
+        }
 
     </script>
 </body>
