@@ -110,9 +110,8 @@
 
                 if(timerCounter < 0){
                     clearInterval(timerIntervalValue);
-                    alert("Você perdeu. Fim de jogo!");
-                    //Soma pontos totais
-                    //Envia para o ranking
+                    savePoints = ("Guilherme", parseInt(localStorage.getItem("pontuacaoAtual")));
+                    alert("Fim de jogo!");
                     window.location.href = "index.html";
                     return;
                 }
