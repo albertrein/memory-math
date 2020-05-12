@@ -1,64 +1,30 @@
 <?php
     include_once('dbconnection.php');
-
-    /*
-     * Recebe o numero de par de cartas via get
-     */
-
-    $err = FALSE;
-    (isset($_GET['cartas']) and !empty($_GET['cartas'])) ? $cartas = $_GET['cartas'] : $err = TRUE;
-
-    if (($cartas < 1) || ($err)) {
-        mysqli_close($db_conn);	
-	    exit;
-    }
-
-    $query = 'SELECT CR.resultado FROM MEMORY_MATH.CARTA_RESPOSTA CR
-                                  ORDER BY RAND()
-                                  LIMIT '.$cartas;
+    
+    $quantidadeCartasSolicitadas = $_POST['qtdCartas'];
+    
+    $query = 'SELECT CC.id, CC.expressao, CR.resultado FROM carta_calculo CC INNER JOIN carta_resposta CR WHERE CC.RESPOSTA = CR.ID ORDER BY RAND() LIMIT '.$quantidadeCartasSolicitadas;
 
     $result = mysqli_query($db_conn, $query);
-    $qtd = mysqli_num_rows($result);
-
-    if ($qtd >= $cartas) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $rows[] = $row;
-        }
-        $cont=0;
-        foreach ($rows as $r) {
-            $query = 'SELECT CC.id, CC.expressao, CC.resposta FROM MEMORY_MATH.CARTA_CALCULO CC 
-                                                              WHERE CC.RESPOSTA='.$r['resultado'].'
-                                                              ORDER BY RAND()
-                                                              LIMIT 1';
-            $result = mysqli_query($db_conn, $query);
-            $row = mysqli_fetch_assoc($result);
-            $selecionadas[$cont] = $row;
-            $cont++;
-        }
-    } else {
-        echo 'ERRO: Nao existem cartas cadastradas suficientes!';
+    
+    if(!$result || mysqli_num_rows($result) <= 0 || mysqli_num_rows($result) < $quantidadeCartasSolicitadas){
+        echo "null";
         mysqli_close($db_conn);	
-	    exit;
+        exit;
     }
-
-    foreach ($selecionadas as $s) {
+    
+    while ($row = mysqli_fetch_assoc($result)) {
         $json[] = array(
-            'key' => $s['id'],
-            'value' => $s['expressao']
+            'key' => $row['id'],
+            'value' => $row['expressao']
         );
         $json[] = array(
-            'key' => $s['id'],
-            'value' => $s['resposta']
+            'key' => $row['id'],
+            'value' => $row['resultado']
         );
     }
-
     shuffle($json);
 
     $json_str = json_encode($json);
-    echo "$json_str";
-
-    mysqli_query($db_conn, $query) or die(mysqli_error());
-    
-	mysqli_close($db_conn);	
-	exit;
+    echo $json_str;
 ?>
