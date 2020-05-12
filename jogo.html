@@ -38,7 +38,7 @@
         });
 
         let respotaParaPerguntaAleatoria = null;
-        fetch("./backend/listarperguntas.php").then((response) => {
+        fetch("./backend/listarperguntas.php", {cache: "no-cache"}).then((response) => {
             response.json().then((jsonReturn) => {
                 console.log(jsonReturn);
                 document.getElementById('pergunta').textContent = jsonReturn.PERGUNTA;
