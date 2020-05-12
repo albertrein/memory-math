@@ -5,17 +5,7 @@
      * Recebe o numero de jogadores via get
      */
 
-    $err = FALSE;
-    (isset($_GET['jogadores']) and !empty($_GET['jogadores'])) ? $jogadores = $_GET['jogadores'] : $err = TRUE;
-
-    if (($jogadores < 1) || ($err)) {
-        mysqli_close($db_conn);	
-	    exit;
-    }
-
-    $query = 'SELECT J.nome, J.pontos FROM MEMORY_MATH.JOGADOR J
-                                                        ORDER BY J.PONTOS DESC
-                                                        LIMIT '.$jogadores;
+    $query = 'SELECT nome, pontos FROM jogador ORDER BY pontos DESC LIMIT 10';
 
     $result = mysqli_query($db_conn, $query);
     $qtd = mysqli_num_rows($result);
@@ -25,6 +15,7 @@
             $rows[] = $row;
         }
     } else {
+        echo "null";
         mysqli_close($db_conn);	
 	    exit;
     }
@@ -36,8 +27,7 @@
         );
     }
 
-    $json_str = json_encode($json);
-    echo "$json_str";
+    echo json_encode($json);
 
     mysqli_query($db_conn, $query) or die(mysqli_error());
     
