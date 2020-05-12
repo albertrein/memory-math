@@ -13,28 +13,19 @@
             *To do
             * Fetch buscar informações do ranking no php
         */
-        /*let jsonRanking;
-        fetch("./backend/.php").then((response) => {
-            jsonRanking = JSON.parse(response);
-            if(!jsonRanking){
-
-            }
-        });*/
         
-        let createElementTable = (ranking) => new Promise((resolve, reject) => {
-            let tr = document.createElement('tr');
-            let tdUsuario = document.createElement('td');
-            tdUsuario.textContent = ranking.usuario;
-            tr.appendChild(tdUsuario);
-
-            let tdPontuacao = document.createElement('td');
-            tdPontuacao.textContent = ranking.pontuacao;
-            tr.appendChild(tdPontuacao);
-            resolve(tr);
+        fetch("./backend/ranking.php").then((response) => {
+            response.json().then((jsonRankingReturn) => {
+                if(!jsonRankingReturn){
+                    alert('Sem dados a exibir');
+                    return;
+                }
+                console.log(jsonRankingReturn);
+                insertTableLines(jsonRankingReturn);
+            });
         });
         
-        let phpRankingReturnOfFetch = '[{"usuario":"Guilherme", "pontuacao": "12 pts"}, {"usuario":"Renan", "pontuacao": "10 pts"}, {"usuario":"Samuel", "pontuacao": "9 pts"}, {"usuario":"Tony Stark", "pontuacao": "8 pts"}, {"usuario":"Naruto", "pontuacao": "7 pts"}, {"usuario":"Thanos", "pontuacao": "4 pts"}]';
-        let jsonRanking = JSON.parse(phpRankingReturnOfFetch);
+        
     </script>
 </head>
 <body>
@@ -90,16 +81,29 @@
             }
           },1000);
 
-        let insertTableLines = async () => {
+        let insertTableLines = async (jsonRanking) => {
             let arrayPromises = [];
             jsonRanking.forEach((rankingUsuario) => {
+                console.log(rankingUsuario)
                 arrayPromises.push(createElementTable(rankingUsuario).then((elementTable)=>{
                     document.querySelector('#tableBody').appendChild(elementTable);
                 }));
             });
             await Promise.all(arrayPromises);
         }
-        insertTableLines();
+
+        let createElementTable = (ranking) => new Promise((resolve, reject) => {
+            let tr = document.createElement('tr');
+            let tdUsuario = document.createElement('td');
+            tdUsuario.textContent = ranking.nome;
+            tr.appendChild(tdUsuario);
+
+            let tdPontuacao = document.createElement('td');
+            tdPontuacao.textContent = ranking.pontos;
+            tr.appendChild(tdPontuacao);
+            resolve(tr);
+        });
+        
       </script>
     <p id="warning" style="display: none;" class="nes-balloon from-right">
         Por favor, verifique o campo novamente.
