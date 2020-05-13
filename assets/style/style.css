@@ -48,3 +48,6 @@ progress{
 dialog #pergunta{
     word-break: break-all;
 }
+#buttons .is-error{
+    margin-left: 10%;
+}

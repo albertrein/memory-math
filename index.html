@@ -38,11 +38,9 @@
     <section class="showcase"><section class="nes-container with-title"><h3 class="title">Opções</h3>
         <div id="buttons" class="item">
             <a id="ranking" href="ranking.html" class="nes-btn is-primary" tabindex="0">Ranking</a>
-            <a id="login" href="./admin/manter_contas.html" class="nes-btn is-primary" tabindex="2">Entrar</a>
-            <!--<button type="button" class="nes-btn is-success">Success</button>
-            <button type="button" class="nes-btn is-warning">Warning</button>
-            <button type="button" class="nes-btn is-error">Error</button>
-            <button type="button" class="nes-btn is-disabled">Disabled</button>-->
+            <a id="log" onclick="document.getElementById('dialog-cadastro').showModal();" class="nes-btn is-warning" tabindex="2">Cadastrar nova conta</a>
+            <a id="login" onclick="document.getElementById('dialog-login').showModal();" class="nes-btn is-error" tabindex="2">Entrar</a>
+            
         </div>
     </section>
     <section style="margin-top: 30px">
@@ -60,8 +58,44 @@
     <div class="nes-container with-title is-centered" style="border: none">
         <button type="button" id="jogar" class="nes-btn is-disabled" disabled onclick="startGame()">Jogar</button>
     </div>
+    <section>
+        <dialog class="nes-dialog" id="dialog-login">
+          <form id="login-form" method="dialog">
+            <p class="title">Entrar na sua conta.</p>
+            <p class="_error" style="color: red; display:none ;"></p>
+            <div class="nes-field">
+                <label for="name_field">Digite Seu Usuário</label>
+                <input type="text" required id="name_field" class="nes-input name">
+                <label for="password_field">Digite Sua Senha</label>
+                <input type="password" required id="password_field" class="nes-input password">
+              </div>
+            <menu class="dialog-menu">
+              <button class="nes-btn" onclick="document.getElementById('dialog-login').close();">Cancelar</button>
+              <button class="nes-btn is-primary" type="submit" onclick="realizaAcaoUsuario(document.querySelector('#login-form'));">Entrar!</button>
+            </menu>
+          </form>
+        </dialog>
+
+        <dialog class="nes-dialog" id="dialog-cadastro">
+            <form id="cadastro-form" method="dialog">
+              <p class="title">Cadastrar conta.</p>
+              <p class="_error" style="color: red; display:none ;">Este usuário já existe!</p>
+              <div class="nes-field">
+                  <label for="name_field">Digite Novo Usuário</label>
+                  <input type="text" required class="nes-input name">
+                  <label for="password_field">Digite Nova Senha</label>
+                  <input type="password" required class="nes-input password">
+                </div>
+              <menu class="dialog-menu">
+                <button class="nes-btn" onclick="document.getElementById('dialog-cadastro').close();">Cancelar</button>
+                <button class="nes-btn is-primary" onclick="realizaAcaoUsuario(document.querySelector('#cadastro-form'));">Salvar!</button>
+              </menu>
+            </form>
+          </dialog>
+      </section>
 </div>
 </div><!-- end f content -->
+<script src="./js/login-cadastro.js"></script>
 <script>
     let optionEscolhida = null;
     document.querySelector('#default_select_options').addEventListener('change', evt => {

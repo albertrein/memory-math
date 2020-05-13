@@ -39,7 +39,7 @@
     $usuario = $json->usuario;
     $senha = $json->senha;
     
-    if($tipo == "login"){
+    if($tipo == "login-form"){
         login($db_conn, $usuario, $senha);
     }else{
         cadastraUsuario($db_conn, $usuario, $senha);
