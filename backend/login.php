@@ -11,11 +11,12 @@
         resposta(false);
     }
 
-    function cadastraUsuario($db, $usario, $senha){
+    function cadastraUsuario($db, $usuario, $senha){
         $query = ("INSERT INTO jogador(nome, senha, pontos) VALUES ('".$usuario."', '".$senha."', 0)");
         $result = mysqli_query($db, $query);
-        if($result && mysqli_num_rows($result) > 0){
+        if($result){
            resposta(true);
+           return;
         }
         resposta(false);
     }
@@ -37,12 +38,11 @@
     $tipo = $json->tipo;
     $usuario = $json->usuario;
     $senha = $json->senha;
-   // echo json_encode('OK'.$senha);
     
     if($tipo == "login"){
         login($db_conn, $usuario, $senha);
     }else{
-        cadastraUsuario($db_conn, $usario, $senha);
+        cadastraUsuario($db_conn, $usuario, $senha);
     }
     mysqli_close($db_conn);
 ?>
