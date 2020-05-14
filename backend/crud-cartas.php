@@ -67,14 +67,16 @@
     $campo1 = $json->campo1;
     $campo1 = $json->campo2;
 
+    
+
     switch($acao){
-        case "insert":
-            insert($db_conn, $campo1, $campo2);    
+        case "inserir":
+            insert($db_conn, $campo1, $campo2);
             break;
-        case "delete":
-            insert($db_conn, $cod);
+        case "deletar":
+            delete($db_conn, $cod);
         break;
-        case "update":
+        case "atualizar":
             update($db_conn, $cod, $campo1, $campo2);
             break;
         default:
