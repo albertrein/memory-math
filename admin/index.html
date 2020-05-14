@@ -69,6 +69,18 @@
     </div>
     <script src="../js/geradorElementosTabela.js"></script>
     <script>
+        let x = document.querySelector('tbody');
+        fetch("../backend/crud-cartas.php").then(response => {
+            response.json().then((jsonReturn) => {
+                if(!jsonReturn){
+                    alert('Cartas Vazias!');
+                    return;
+                }
+                console.log(jsonReturn);
+                jsonReturn.forEach(element => x.appendChild(getNovoItem(element.id, element.expressao, element.resultado)) );
+            });
+        });
+    
         //Desabilitando formulario submit
         document.querySelector('#dialog-form').addEventListener('submit', event => event.preventDefault());
 
@@ -113,7 +125,7 @@
         let realizaRequisicao = (cod, acao, campo1 = null, campo2 = null) => new Promise((resolve, reject) => {
             let params = {
                 method: 'post',
-                body: JSON.stringify({'campo1': campo1, 'campo2': campo2})
+                body: JSON.stringify({'cod':cod, 'acao': acao, 'campo1': campo1, 'campo2': campo2})
             }
             fetch("../backend/crud-cartas.php",parms).then(response => {
                 response.json().then((jsonReturn) => {
