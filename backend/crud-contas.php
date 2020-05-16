@@ -7,7 +7,7 @@
      */
 
      function select($db){
-        $query = 'SELECT  CC.id, CC.expressao, CR.resultado FROM carta_calculo CC INNER JOIN carta_resposta CR WHERE CC.resposta = CR.id ORDER BY CC.id';
+        $query = 'SELECT  id, nome, senha FROM jogador ORDER BY id ASC';
         $result = mysqli_query($db, $query) or die('null');
 
         if($result && mysqli_num_rows($result) > 0){
@@ -21,11 +21,8 @@
      }
 
     function delete($db,$cod){
-        $query = "SET FOREIGN_KEY_CHECKS=OFF"; //Gambi pra fazer o delete
-        mysqli_query($db, $query) or die(json_encode('null'));
-        $query = 'DELETE carta_calculo, carta_resposta FROM carta_calculo INNER JOIN carta_resposta WHERE carta_calculo.RESPOSTA=carta_resposta.ID AND carta_calculo.ID='.$cod;
-        $result = mysqli_query($db, $query) or die('null');
-        //echo $query."-";
+        $query = 'DELETE FROM jogador WHERE jogador.id='.$cod;
+        $result = mysqli_query($db, $query) or die("null");
         if($result){
             echo json_encode("Ok!");
             return true;
@@ -34,12 +31,13 @@
     }
 
     function insert($db,$campo1, $campo2){
-        $query = 'SELECT COUNT(*) AS total FROM carta_calculo CC WHERE CC.expressao = "'.$campo1.'"';
-        $result = mysqli_query($db, $query)or die('null');
+        $query = 'SELECT COUNT(*) AS total FROM jogador WHERE jogador.nome="'.$campo1.'"';
+        $result = mysqli_query($db, $query)or die("null1");
         $row = mysqli_fetch_assoc($result);
 
         if($row['total'] == 0) {
-            cadastrarCartaCalculo($db, $campo1, $campo2);
+            $query = 'INSERT INTO jogador(NOME, SENHA, PONTOS) VALUES ("'.$campo1.'", "'.$campo2.'", 0)';
+            $result = mysqli_query($db, $query)or die('null');
             echo json_encode("Ok");
         } else {
             echo "null";
@@ -47,8 +45,8 @@
     }
 
     function update($db, $cod, $campo1, $campo2){
-        $query = "UPDATE carta_calculo CC, carta_resposta CR SET CC.expressao='".$campo1."', CR.resultado='".$campo2."' WHERE CC.resposta=CR.id AND CC.id=".$cod;
-        $result = mysqli_query($db, $query)or die('null');
+        $query = "UPDATE jogador J SET J.nome='".$campo1."', J.senha='".$campo2."' WHERE J.id=".$cod;
+        $result = mysqli_query($db, $query)or die("null");
     
         echo json_encode("Ok");
         

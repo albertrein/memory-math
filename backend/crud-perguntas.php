@@ -8,7 +8,7 @@
 
      function select($db){
         $query = 'SELECT  id, pergunta, resposta FROM pergunta ORDER BY id ASC';
-        $result = mysqli_query($db, $query) or die(json_encode('null'));
+        $result = mysqli_query($db, $query) or die('null');
 
         if($result && mysqli_num_rows($result) > 0){
             while ($row = mysqli_fetch_assoc($result)) {
@@ -22,7 +22,7 @@
 
     function delete($db,$cod){
         $query = 'DELETE FROM pergunta WHERE pergunta.id='.$cod;
-        $result = mysqli_query($db, $query) or die(json_encode('null'));
+        $result = mysqli_query($db, $query) or die('null');
         if($result){
             echo json_encode("Ok!");
             return true;
@@ -32,12 +32,12 @@
 
     function insert($db,$campo1, $campo2){
         $query = 'SELECT COUNT(*) AS total FROM pergunta WHERE pergunta.pergunta="'.$campo1.'"';
-        $result = mysqli_query($db, $query)or die(json_encode('null'));
+        $result = mysqli_query($db, $query)or die('null');
         $row = mysqli_fetch_assoc($result);
 
         if($row['total'] == 0) {
             $query = 'INSERT INTO pergunta(PERGUNTA, RESPOSTA) VALUE ("'.$campo1.'", "'.$campo2.'" )';
-            $result = mysqli_query($db, $query)or die(json_encode('null'));
+            $result = mysqli_query($db, $query)or die('null');
             echo json_encode("Ok");
         } else {
             echo "null";
@@ -46,7 +46,7 @@
 
     function update($db, $cod, $campo1, $campo2){
         $query = "UPDATE pergunta P SET P.pergunta='".$campo1."', P.resposta='".$campo2."' WHERE P.id=".$cod;
-        $result = mysqli_query($db, $query)or die(json_encode("null"));
+        $result = mysqli_query($db, $query)or die('null');
     
         echo json_encode("Ok");
         
