@@ -133,8 +133,11 @@
                 acao = 'inserir';
             }
             let response = await realizaRequisicao(formTitle.id,acao,campo1, campo2);
-            if(response)
+            if(response){
                 window.location.reload();
+                return;
+            }            
+            errorMessage.style.display = "block";
             return;
 
         }
