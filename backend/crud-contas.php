@@ -1,6 +1,5 @@
 <?php
     include_once('dbconnection.php');
-    include_once('cadastrarcartafunctions.php');
 
     /*
      * {cod: '', acao: '', campo1: '', campo2: ''}
