@@ -129,6 +129,10 @@
                 document.querySelector('._error').style.display = "block";
                 return;
             }
+            if(eval(campo1) != campo2){ //  Verificando expressão
+                document.querySelector('._error').style.display = "block";
+                return;
+            }
             let acao = 'atualizar';
             if(formTitle.id === "-1"){
                 acao = 'inserir';
