@@ -1,6 +1,6 @@
 <?php
     include_once('dbconnection.php');
-    include_once('cadastrarcartafunctions.php');
+    include_once('crud-cartas-funcs.php');
 
     /*
      * {cod: '', acao: '', campo1: '', campo2: ''}
