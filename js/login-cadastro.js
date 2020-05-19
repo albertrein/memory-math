@@ -19,6 +19,7 @@ let realizaAcaoUsuario = async (elemento) => {
     if(resposta){
         logaUsuario(usuario.value);
         document.querySelector('#dialog-login').close();
+        window.location.reload();
         return;
     }
     if(elemento.id == "login-form"){

@@ -38,13 +38,13 @@
     <section class="showcase"><section class="nes-container with-title"><h3 class="title">Opções</h3>
         <div id="buttons" class="item">
             <a id="ranking" href="ranking.html" class="nes-btn is-primary" tabindex="0">Ranking</a>
-            <a id="log" onclick="document.getElementById('dialog-cadastro').showModal();" class="nes-btn is-warning" tabindex="2">Cadastrar nova conta</a>
+            <a id="log" onclick="document.getElementById('dialog-cadastro').showModal();" class="nes-btn is-warning" tabindex="1">Cadastrar nova conta</a>
             <a id="login" onclick="document.getElementById('dialog-login').showModal();" class="nes-btn is-error" tabindex="2">Entrar</a>
-            
+            <a id="logout" onclick="deslogar()" style="display: none; float: right;" class="nes-btn is-error" tabindex="0">Sair</a>
         </div>
     </section>
-    <section style="margin-top: 30px">
-        <label for="default_select">Escolha a dificuldade do jogo</label>
+    <section id="dificuldade" style="margin-top: 30px; display: none;">
+        <label id="label-dificuldade" for="default_select"> escolha a dificuldade do jogo</label>
         <div class="nes-select">
         <select required id="default_select_options">
             <option value="" disabled selected hidden>Escolha...</option>
@@ -95,6 +95,24 @@
       </section>
 </div>
 </div><!-- end f content -->
+<script>
+    let usuario = localStorage.getItem("usuario") || false;
+    if(usuario){
+        console.log(usuario)
+        document.querySelector('#log').style.display = "none";
+        document.querySelector('#login').style.display = "none";
+        document.querySelector('#logout').style.display = "block";
+        document.querySelector('#dificuldade').style.display = "block";
+        let elementLabelDificuldade = document.querySelector('#label-dificuldade');
+        elementLabelDificuldade.textContent = usuario + elementLabelDificuldade.textContent;
+    }
+
+    let deslogar = () => {
+        localStorage.removeItem("usuario");
+        window.location.reload();
+    }
+
+</script>
 <script src="./js/login-cadastro.js"></script>
 <script>
     let optionEscolhida = null;
