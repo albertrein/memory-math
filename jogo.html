@@ -136,8 +136,6 @@
             if(card1.getAttribute("key") == card2.getAttribute("key")){
                 registrarPontuacao(10);
                 quantidadeCartasAtivas--;
-                card1.removeEventListener('click',makeMove);
-                card2.removeEventListener('click',makeMove);
                 resolve();
             }else{
                 card1.className = "card";
@@ -147,12 +145,14 @@
         });
 
         let makeMove = (card) => {
-            card = card.target;
             card.className += " show"
             
             if(!primeiraJogada){
                 primeiraJogada = card;
                 return;
+            }
+            if(card.textContent == primeiraJogada.textContent){
+                console.log('Aiii ó')
             }
             
             setTimeout(async () => {
@@ -169,10 +169,9 @@
             newCard.classList = "card";
             newCard.textContent = text;
             newCard.setAttribute('key', key);
-            newCard.addEventListener('click',makeMove);
-            /*newCard.addEventListener('click',(el) => {
+            newCard.addEventListener('click',(el) => {
                 makeMove(el.target)
-            });*/
+            });
             containerElement.appendChild(newCard);
         }
 
