@@ -13,11 +13,10 @@
     </style>
     <script>
         let regras = JSON.parse(localStorage.getItem("regras"));
-        /*
-            *To do
-            * Verificar aqui se jogador está logado
-            * Fazer fetch enviando quantidade de cartas de acordo com a dificuldade            
-        */
+        let usuario = localStorage.getItem('usuario') || false;
+        if(!usuario){
+            window.location.href = "index.html";
+        }
         let dadosFormulariosCapturarCartas = new FormData();
         dadosFormulariosCapturarCartas.append('qtdCartas',regras.qtdCartas);
         let params = {
@@ -76,7 +75,7 @@
                 <p id="pergunta">texto aqui!</p>
                 <input type="text" id="inputPergunta" required id="dark_field" class="nes-input is-dark" placeholder="Qual a resposta?">
                 <menu class="dialog-menu">
-                  <button class="nes-btn" onclick="document.getElementById('dialog-rounded').close();">Pular</button>
+                  <button class="nes-btn" onclick="pularPergunta();">Pular</button>
                   <button type="submit" class="nes-btn is-primary" onclick="respondePerguntaAleatoria()">Responder</button>
                 </menu>
             </form>
@@ -110,7 +109,7 @@
 
                 if(timerCounter < 0){
                     clearInterval(timerIntervalValue);
-                    savePoints = ("Guilherme", parseInt(localStorage.getItem("pontuacaoAtual")));
+                    savePoints(usuario, parseInt(localStorage.getItem("pontuacaoAtual")));
                     alert("Fim de jogo!");
                     window.location.href = "index.html";
                     return;
@@ -137,6 +136,8 @@
             if(card1.getAttribute("key") == card2.getAttribute("key")){
                 registrarPontuacao(10);
                 quantidadeCartasAtivas--;
+                card1.removeEventListener('click',makeMove);
+                card2.removeEventListener('click',makeMove);
                 resolve();
             }else{
                 card1.className = "card";
@@ -146,6 +147,7 @@
         });
 
         let makeMove = (card) => {
+            card = card.target;
             card.className += " show"
             
             if(!primeiraJogada){
@@ -167,9 +169,10 @@
             newCard.classList = "card";
             newCard.textContent = text;
             newCard.setAttribute('key', key);
-            newCard.addEventListener('click',(el) => {
+            newCard.addEventListener('click',makeMove);
+            /*newCard.addEventListener('click',(el) => {
                 makeMove(el.target)
-            });
+            });*/
             containerElement.appendChild(newCard);
         }
 
@@ -197,12 +200,19 @@
             startTimer();
         }
 
+        let pularPergunta = () => {
+            document.getElementById('dialog-rounded').close();
+            startTimer();
+        } 
+
         let savePoints = (nome, pontos) => {
             let params = {
                 method: 'POST',
                 body: JSON.stringify({"nome": nome, "pontos": pontos})
             };
-            fetch("./backend/atualizarpontos.php",params)
+            fetch("./backend/atualizarpontos.php",params).then(() => {
+                return;
+            })
         }
     </script>
 </body>
