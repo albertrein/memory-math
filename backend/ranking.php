@@ -7,9 +7,9 @@
 
     $query = 'SELECT nome, pontos FROM jogador ORDER BY pontos DESC LIMIT 10';
 
-    $result = mysqli_query($db_conn, $query);
+    $result = mysqli_query($db_conn, $query) or die("null");
     
-    if ($result && mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $rows[] = $row;
         }
@@ -18,15 +18,7 @@
         mysqli_close($db_conn);	
         exit;
     }
-    
-    foreach ($rows as $r) {
-        $json[] = array(
-            'nome' => $r['nome'],
-            'pontos' => $r['pontos'].' pts'
-        );
-    }
-
-    echo json_encode($json);
+    echo json_encode($rows);
 
     mysqli_query($db_conn, $query) or die(mysqli_error());
     
