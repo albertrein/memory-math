@@ -64,13 +64,7 @@
         return true;
     }
 
-    function cadastrarCartaCalculo($db_conn, $expressao) {
-        $resultado = calcular($expressao);
-        if ($resultado == null) {
-            //não será cadastrado, pois não foi possível calcular a expressao
-            return FALSE;
-        }
-
+    function cadastrarCartaCalculo($db_conn, $expressao, $resultado) {
         $resposta = buscarIdCartaRespostaPorResultado($db_conn, $resultado);
         if ($resposta == null) {
             cadastrarCartaResposta($db_conn, $resultado);

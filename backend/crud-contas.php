@@ -30,17 +30,17 @@
     }
 
     function insert($db,$campo1, $campo2){
-        $query = 'SELECT COUNT(*) AS total FROM jogador WHERE jogador.nome="'.$campo1.'"';
-        $result = mysqli_query($db, $query)or die("null1");
+        $query = 'SELECT COUNT(*) AS total FROM carta_calculo CC WHERE CC.expressao = "'.$campo1.'"';
+        $result = mysqli_query($db, $query)or die('null');
         $row = mysqli_fetch_assoc($result);
 
         if($row['total'] == 0) {
-            $query = 'INSERT INTO jogador(NOME, SENHA, PONTOS) VALUES ("'.$campo1.'", "'.$campo2.'", 0)';
-            $result = mysqli_query($db, $query)or die('null');
-            echo json_encode("Ok");
-        } else {
-            echo "null";
+            if(cadastrarCartaCalculo($db, $campo1, $campo2)){
+                echo json_encode("Ok");
+                return;
+            }            
         }
+        echo "null";
     }
 
     function update($db, $cod, $campo1, $campo2){
