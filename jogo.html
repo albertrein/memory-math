@@ -62,7 +62,7 @@
                 </div>
             </div>
         </header>
-        <p class="pontuacao">
+        <p class="pontuacao" style="display: none;">
             <span id="pontuacaoAtual" class="nes-text is-primary">0</span>
         </p>
         <div class="nes-container with-title is-centered">
@@ -124,13 +124,12 @@
         let registrarPontuacao = (pontos) => {
             let pontuacaoAtual = parseInt(localStorage.getItem("pontuacaoAtual")) + pontos;
             localStorage.setItem("pontuacaoAtual", pontuacaoAtual);
-
-            document.querySelector('#pontuacaoAtual').textContent = pontuacaoAtual; 
+            //document.querySelector('#pontuacaoAtual').textContent = pontuacaoAtual; 
         }
 
         let verificaFimDaEtapa = () => {            
             if(quantidadeCartasAtivas <= 0){
-                registrarPontuacao(regras.pontuacaoPorEtapa);
+                //registrarPontuacao(regras.pontuacaoPorEtapa);
                 alert("Fim da etapa");
                 window.location.reload();
             }
