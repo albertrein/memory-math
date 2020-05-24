@@ -109,12 +109,16 @@
 
                 if(timerCounter < 0){
                     clearInterval(timerIntervalValue);
-                    savePoints(usuario, parseInt(localStorage.getItem("pontuacaoAtual")));
-                    alert("Fim de jogo!");
-                    window.location.href = "index.html";
+                    endGame();
                     return;
                 }
             },1000)
+        }
+
+        let endGame = async () => {
+            await savePoints(usuario, parseInt(localStorage.getItem("pontuacaoAtual")));
+            alert("Fim de jogo!");
+            window.location.href = "index.html";
         }
 
         let registrarPontuacao = (pontos) => {
@@ -151,10 +155,6 @@
                 primeiraJogada = card;
                 return;
             }
-            if(card.textContent == primeiraJogada.textContent){
-                console.log('Aiii ó')
-            }
-            
             setTimeout(async () => {
                 await verificaSeCartasSaoIguais(primeiraJogada, card);                    
                 verificaFimDaEtapa();                
@@ -204,15 +204,14 @@
             startTimer();
         } 
 
-        let savePoints = (nome, pontos) => {
+        let savePoints = (nome, pontos) => new Promise(async (resolve, reject) => {
             let params = {
                 method: 'POST',
                 body: JSON.stringify({"nome": nome, "pontos": pontos})
             };
-            fetch("./backend/atualizarpontos.php",params).then(() => {
-                return;
-            })
-        }
+            await fetch("./backend/atualizarpontos.php",params);
+            resolve();
+        }) 
     </script>
 </body>
 </html>
