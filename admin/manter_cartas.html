@@ -74,7 +74,7 @@
 
         //Monta tabela de cartas
         let corpoTabela = document.querySelector('tbody');
-        fetch("../backend/crud-cartas.php").then(response => {
+        fetch("../backend/crud-cartas3.0.php").then(response => {
             response.json().then((jsonReturn) => {
                 if(!jsonReturn){
                     alert('Cartas Vazias!');
@@ -152,7 +152,7 @@
                 method: 'post',
                 body: JSON.stringify({'cod':cod, 'acao': acao, 'campo1': campo1, 'campo2': campo2})
             }
-            fetch("../backend/crud-cartas.php",params).then(response => {
+            fetch("../backend/crud-cartas3.0.php",params).then(response => {
                 response.json().then((jsonReturn) => {
                     console.log(jsonReturn)
                     if(!jsonReturn)
