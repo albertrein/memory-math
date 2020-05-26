@@ -24,7 +24,7 @@
             body: dadosFormulariosCapturarCartas
         };
         let cartas = null;
-        fetch("./backend/selecionarcartas.php",params).then((response) => {
+        fetch("./backend/selecionacartas3.0.php",params).then((response) => {
             response.json().then((jsonReturn) => {
                 console.log(jsonReturn);
                 if(!jsonReturn){
