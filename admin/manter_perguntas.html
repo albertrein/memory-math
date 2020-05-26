@@ -73,7 +73,7 @@
     <script>
 
         let corpoTabela = document.querySelector('tbody');
-        fetch("../backend/crud-perguntas.php").then(response => {
+        fetch("../backend/crud-perguntas.php",{cache: "no-cache"}).then(response => {
             response.json().then((jsonReturn) => {
                 if(!jsonReturn){
                     alert('Não há Perguntas.');
