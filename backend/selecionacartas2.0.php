@@ -7,11 +7,11 @@
 
     $cartas = $_POST['qtdCartas'];
 
-    $query = 'SELECT id, resultado FROM carta_resposta ORDER BY RAND() LIMIT '.$cartas;
+    $query = 'SELECT DISTINCT resposta FROM cartas_new ORDER BY RAND() LIMIT '.$cartas;
 
     $result = mysqli_query($db_conn, $query);
 	if($result == FALSE) {
-		echo '1null';
+		echo 'null';
         mysqli_close($db_conn);	
 	    exit;
 	}
@@ -22,10 +22,10 @@
             $rows[] = $row;
         }
         foreach ($rows as $r) {
-            $query = 'SELECT CC.id, CC.expressao, '.$r['resultado'].' as resposta FROM carta_calculo CC 
-                                                                                  WHERE CC.resposta='.$r['id'].'
-                                                                                  ORDER BY RAND()
-                                                                                  LIMIT 1';
+            $query = 'SELECT id, expressao, resposta FROM cartas_new
+                                                     WHERE resposta='.$r['resposta'].'
+                                                     ORDER BY RAND()
+                                                     LIMIT 1';
             $result = mysqli_query($db_conn, $query);
             if($result == FALSE) {
                 echo 'null';
