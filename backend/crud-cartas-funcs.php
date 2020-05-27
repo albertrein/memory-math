@@ -81,8 +81,8 @@
         return TRUE;
     }
 
-    function editarCarta($db_conn, $id, $expressao) {
-        $resultado = calcular($expressao);
+    function editarCarta($db_conn, $id, $expressao, $resultado) {
+        //$resultado = calcular($expressao);
 
         if ($resultado == null) {
             return FALSE; //não será atualizado, pois não foi possível calcular a expressao

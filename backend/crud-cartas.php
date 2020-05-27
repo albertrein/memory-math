@@ -67,10 +67,12 @@
             insert($db_conn, $campo1, $campo2);
         break;
         case "deletar":
-            delete($db_conn, $cod);
+            //delete($db_conn, $cod);
+            removerCarta($db_conn, $cod);
         break;
         case "atualizar":
-            update($db_conn, $cod, $campo1, $campo2);
+            //update($db_conn, $cod, $campo1, $campo2);
+            editarCarta($db_conn, $cod, $campo1, $campo2);
             break;
         default:
             select($db_conn);
