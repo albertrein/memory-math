@@ -31,6 +31,11 @@
                     alert('Sem Cartas a exibir')
                     return;
                 }
+                if(jsonReturn.qtdCartasRestantes){
+                    document.querySelector('#warning').style.display = "block";
+                    document.querySelector('#warning').textContent = 'Faltam '+jsonReturn.qtdCartasRestantes+' cartas para este nível de dificuldade!'
+                    return;
+                }
                 cartas = jsonReturn;
                 startGame();
             });
@@ -49,6 +54,7 @@
 </head>
 <body>
     <div class="nescss">
+        <p id="warning" style="display: none;" class="nes-balloon from-right"></p>
         <header class="">
             <div class="container">
                 <div class="nav-brand">

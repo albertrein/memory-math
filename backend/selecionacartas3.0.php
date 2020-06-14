@@ -16,9 +16,9 @@
             $rows[] = $row;
         }
     } else {
-        echo 'null';
-        mysqli_close($db_conn);	
-	    exit;
+        mysqli_close($db_conn);
+        $erro = array("qtdCartasRestantes" => $cartas-$qtd);
+        die(json_encode($erro));
     }
 
     foreach ($rows as $carta) {
