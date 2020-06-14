@@ -8,8 +8,13 @@ let realizaAcaoUsuario = async (elemento) => {
     let password = elemento.querySelector('.password');
     let alertError = elemento.querySelector('._error');
     
-    if(usuario.value.length <= 1 || password.value.length <= 1){
-        alertError.textContent = "Dados de entrada inválidos!";
+    if(usuario.value.length <= 1 || !isValideString(usuario.value)){
+        alertError.textContent = "Campo Usuário não é válido!";
+        alertError.style.display = "block";
+        return;
+    }
+    if(password.value.length <= 1 || !isValideString(password.value)){
+        alertError.textContent = "Campo Senha não é válida!";
         alertError.style.display = "block";
         return;
     }
@@ -59,3 +64,5 @@ function sanitizeString(str){
     str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
     return str.trim();
 }
+
+let isValideString = (string) => string.match(/^[\S][A-Za-z0-9\S]+[\S]+$/) != null;
